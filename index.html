@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>황태녀에게 간택당했다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Noto Serif KR"', 'serif'],
+              sans: ['"Noto Sans KR"', 'sans-serif'],
+            },
+            colors: {
+              'royal-gold': '#C5A059',
+              'royal-dark': '#1a1a1a',
+              'jade-light': '#E0F2F1',
+              'jade-main': '#26A69A',
+              'jade-dark': '#00695C',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom scrollbar hiding for clean mobile look */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+  <body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-jade-main selection:text-white pb-20">
+    <div id="root"></div>
+  </body>
+</html>
