@@ -3,7 +3,6 @@ import { TabType } from './types';
 import { MAIN_CHARACTERS, SUB_CHARACTERS, WORLD_DATA, GEMMA_CLUB } from './constants';
 import { CharacterCard } from './components/CharacterCard';
 import { CityCard } from './components/CityCard';
-import { Accordion } from './components/Accordion';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('main');
