@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { TabType } from './types';
-import { MAIN_CHARACTERS, SUB_CHARACTERS, WORLD_DATA, GEMMA_CLUB } from './constants';
+import { TabType, Language } from './types';
+import { DATA_BY_LANGUAGE, UI_TRANSLATIONS } from './constants';
 import { CharacterCard } from './components/CharacterCard';
 import { CityCard } from './components/CityCard';
 
 const App: React.FC = () => {
+  const [language, setLanguage] = useState<Language>('ko');
   const [activeTab, setActiveTab] = useState<TabType>('main');
+
+  const t = UI_TRANSLATIONS[language];
+  const { mainCharacters, subCharacters, worldData, gemmaClub } = DATA_BY_LANGUAGE[language];
 
   const TabButton = ({ id, label }: { id: TabType; label: string }) => (
     <button
       onClick={() => setActiveTab(id)}
-      className={`flex-1 py-3 text-sm font-medium transition-all duration-200 relative
+      className={`flex-1 py-3 text-sm font-medium transition-all duration-200 relative whitespace-nowrap
         ${activeTab === id ? 'text-jade-dark font-bold' : 'text-stone-400 hover:text-stone-600'}
       `}
     >
@@ -25,14 +29,34 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-stone-50 pb-24">
       {/* Navigation Header */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-stone-200 shadow-sm">
-        <div className="px-4 py-3 flex items-center justify-center">
-          <h1 className="font-serif text-lg font-bold text-stone-800 tracking-wide">황태녀에게 간택당했다</h1>
+        <div className="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+          <h1 className="font-serif text-lg font-bold text-stone-800 tracking-wide truncate">
+            {t.appTitle}
+          </h1>
+          {/* Language Toggle */}
+          <div className="flex items-center bg-stone-100 p-0.5 rounded-full border border-stone-200 shrink-0 text-xs">
+            {(['ko', 'en', 'ja'] as Language[]).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                onClick={() => setLanguage(lang)}
+                className={`px-2.5 py-0.5 rounded-full font-medium transition-all duration-150 ${
+                  language === lang
+                    ? 'bg-jade-main text-white font-bold shadow-xs'
+                    : 'text-stone-500 hover:text-stone-800'
+                }`}
+                aria-label={`Switch to ${lang.toUpperCase()}`}
+              >
+                {lang === 'ko' ? 'KO' : lang === 'en' ? 'EN' : 'JP'}
+              </button>
+            ))}
+          </div>
         </div>
-        <nav className="flex px-2">
-          <TabButton id="main" label="주연" />
-          <TabButton id="sub" label="조연" />
-          <TabButton id="world" label="세계관" />
-          <TabButton id="group" label="사교계" />
+        <nav className="flex px-2 max-w-md mx-auto">
+          <TabButton id="main" label={t.tabs.main} />
+          <TabButton id="sub" label={t.tabs.sub} />
+          <TabButton id="world" label={t.tabs.world} />
+          <TabButton id="group" label={t.tabs.group} />
         </nav>
       </header>
 
@@ -44,10 +68,10 @@ const App: React.FC = () => {
           <div className="space-y-6">
             <div className="text-center py-4">
               <p className="font-serif text-stone-500 italic text-sm">
-                "그대는 나의 구원이자, 유일한 평화입니다."
+                {t.quote}
               </p>
             </div>
-            {MAIN_CHARACTERS.map((char) => (
+            {mainCharacters.map((char) => (
               <CharacterCard key={char.id} data={char} isMain={true} />
             ))}
           </div>
@@ -57,14 +81,14 @@ const App: React.FC = () => {
         {activeTab === 'sub' && (
           <div className="space-y-4">
              <div className="bg-white p-4 rounded-lg shadow-sm border border-stone-200 mb-6">
-              <h2 className="font-serif text-lg font-bold mb-2">황실 가계도</h2>
+              <h2 className="font-serif text-lg font-bold mb-2">{t.familyTreeTitle}</h2>
               <div className="text-sm text-stone-600 space-y-1">
-                <p><span className="font-bold text-stone-800">황제:</span> 세베리안 (은퇴)</p>
-                <p><span className="font-bold text-stone-800">황후:</span> 카일리아 (작고) → 발레리아, 엘리오르</p>
-                <p><span className="font-bold text-stone-800">황비:</span> 리비아 (섭정) → 카시안, 플로리아</p>
+                <p><span className="font-bold text-stone-800">{t.emperorLabel}:</span> {t.severianTree}</p>
+                <p><span className="font-bold text-stone-800">{t.empressLabel}:</span> {t.kailiaTree}</p>
+                <p><span className="font-bold text-stone-800">{t.consortLabel}:</span> {t.liviaTree}</p>
               </div>
             </div>
-            {SUB_CHARACTERS.map((char) => (
+            {subCharacters.map((char) => (
               <CharacterCard key={char.id} data={char} />
             ))}
           </div>
@@ -76,18 +100,18 @@ const App: React.FC = () => {
             <div className="mb-6 rounded-lg overflow-hidden shadow-md border border-stone-200">
               <img 
                 src="https://i.postimg.cc/K8v3yj7D/099.jpg" 
-                alt="제국 지도" 
+                alt={t.mapAlt} 
                 className="w-full h-auto object-cover"
               />
               <div className="p-4 bg-white">
-                <h2 className="text-xl font-serif font-bold text-stone-800 mb-1">{WORLD_DATA.name}</h2>
-                <p className="text-sm text-stone-600 leading-relaxed">{WORLD_DATA.description}</p>
+                <h2 className="text-xl font-serif font-bold text-stone-800 mb-1">{worldData.name}</h2>
+                <p className="text-sm text-stone-600 leading-relaxed">{worldData.description}</p>
               </div>
             </div>
 
             <h3 className="text-sm font-bold text-stone-400 uppercase tracking-wider mb-4 px-1">Regions & Cities</h3>
             <div className="space-y-4">
-              {WORLD_DATA.cities.map((city, idx) => (
+              {worldData.cities.map((city, idx) => (
                 <CityCard key={idx} city={city} />
               ))}
             </div>
@@ -103,22 +127,22 @@ const App: React.FC = () => {
                   💎
                 </div>
                 <div>
-                  <h2 className="font-serif text-xl font-bold text-stone-800">{GEMMA_CLUB.name}</h2>
+                  <h2 className="font-serif text-xl font-bold text-stone-800">{gemmaClub.name}</h2>
                   <p className="text-xs text-stone-500">The Social Club</p>
                 </div>
               </div>
               
               <div className="space-y-3 mb-6">
-                {GEMMA_CLUB.description.map((desc, i) => (
+                {gemmaClub.description.map((desc, i) => (
                   <p key={i} className="text-sm text-stone-700 leading-relaxed">
                     {desc}
                   </p>
                 ))}
               </div>
 
-              <h3 className="font-bold text-sm text-stone-800 mb-3">주요 인물</h3>
+              <h3 className="font-bold text-sm text-stone-800 mb-3">{t.keyFigures}</h3>
               <div className="space-y-3">
-                {GEMMA_CLUB.members.map((member, idx) => (
+                {gemmaClub.members.map((member, idx) => (
                   <div key={idx} className="bg-stone-50 p-3 rounded-lg border border-stone-100">
                     <div className="flex justify-between items-center mb-1">
                       <span className="font-bold text-stone-800">{member.name}</span>
@@ -134,7 +158,7 @@ const App: React.FC = () => {
             
              <div className="p-4 rounded-lg bg-stone-100 text-center">
                 <p className="text-xs text-stone-400">
-                  더 많은 정보는 RP 내에서 확인하세요.
+                  {t.footerNote}
                 </p>
              </div>
           </div>

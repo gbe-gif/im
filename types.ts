@@ -1,3 +1,5 @@
+export type Language = 'ko' | 'en' | 'ja';
+
 export type TabType = 'main' | 'sub' | 'world' | 'group';
 
 export interface CharacterProfile {
